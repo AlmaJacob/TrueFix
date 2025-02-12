@@ -1,23 +1,16 @@
-from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login,logout
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import *
-import os
-from django.contrib.auth.models import User
-from django.conf import settings
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
-from .models import Service, Appointment, Payment
-
+from .models import Category, Service, Booking
+from .forms import BookingForm
 
 # Create your views here.
 
-def company_login(req):
-    if 'company' in req.session:
-        return redirect(company_home)
+def shop_login(req):
+    if 'shop' in req.session:
+        return redirect(shop_home)
     if 'user' in req.session:
-        return redirect(company_home)
+        return redirect(user_home)
     else:
         if req.method=='POST':
             uname=req.POST['uname']
@@ -26,20 +19,20 @@ def company_login(req):
             if data:
                 login(req,data)
                 if data.is_superuser:
-                    req.session['company']=uname     #create
-                    return redirect(company_home)
+                    req.session['shop']=uname     #create
+                    return redirect(shop_home)
                 else:
                     req.session['user']=uname
-                    return redirect(company_home)
+                    return redirect(user_home)
             else:
                 messages.warning(req, "Invalid Username or Password")
-                return redirect(company_login)
+                return redirect(shop_login)
     return render(req,'login.html')
 
-def company_logout(req):
+def shop_logout(req):
     logout(req)
     req.session.flush()
-    return redirect(company_login)
+    return redirect(shop_login)
 
 def register(req):
     if req.method=='POST':
@@ -54,42 +47,58 @@ def register(req):
         except:
             messages.warning(req, "Username or Email already exist")
             return redirect(register)
-        return redirect(company_login)
+        return redirect(shop_login)
     else:
         return render(req,'register.html')
     
-    #---------company--------------
 
-def company_home(req):
-    if 'company' in req.session:
-        return render(req,'shop/shop_home.html')
+def home(request):
+    categories = Category.objects.all()
+    featured_services = Service.objects.filter(is_available=True)[:6]
+    return render(request, 'services/home.html', {
+        'categories': categories,
+        'featured_services': featured_services
+    })
+
+def service_list(request, category_id=None):
+    if category_id:
+        services = Service.objects.filter(category_id=category_id, is_available=True)
+        category = Category.objects.get(id=category_id)
     else:
-        return redirect(company_login)
+        services = Service.objects.filter(is_available=True)
+        category = None
     
+    return render(request, 'services/service_list.html', {
+        'services': services,
+        'category': category
+    })
 
-
-# ------------------USER------------------------------------------------
-
-def user_home(req):
-    return render(req, 'user/user_home.html')
-
-def service_list(request):
-    services = Service.objects.all()
-    return render(request, 'service/service_list.html', {'services': services})
-
-# View for creating an appointment
-def create_appointment(request, service_id):
+def service_detail(request, service_id):
     service = get_object_or_404(Service, id=service_id)
-    # logic to create an appointment (simplified for this example)
-    if request.method == 'POST':
-        # Handle form submission, create an Appointment
-        # Assume we have a logged-in customer
-        appointment = Appointment.objects.create(
-            customer=request.user.customer,
-            service=service,
-            appointment_date=request.POST['appointment_date'],
-            status='Pending'
-        )
-        return render(request, 'service/appointment_success.html', {'appointment': appointment})
+    return render(request, 'services/service_detail.html', {'service': service})
 
-    return render(request, 'service/create_appointment.html', {'service': service})
+@login_required
+def book_service(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    
+    if request.method == 'POST':
+        form = BookingForm(request.POST)
+        if form.is_valid():
+            booking = form.save(commit=False)
+            booking.user = request.user
+            booking.service = service
+            booking.save()
+            messages.success(request, 'Booking submitted successfully!')
+            return redirect('dashboard')
+    else:
+        form = BookingForm()
+    
+    return render(request, 'services/booking.html', {
+        'form': form,
+        'service': service
+    })
+
+@login_required
+def dashboard(request):
+    bookings = Booking.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'services/dashboard.html', {'bookings': bookings})

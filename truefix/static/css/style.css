@@ -1,0 +1,61 @@
+.service-card {
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+}
+
+.booking-status-pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.booking-status-confirmed {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.booking-status-completed {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+}
+
+.booking-status-cancelled {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #10B981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+
+/* Add custom animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
