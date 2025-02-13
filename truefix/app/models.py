@@ -40,3 +40,19 @@ class Booking(models.Model):
     
     def __str__(self):
         return f"{self.user.username} - {self.service.name}"
+    
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name=models.TextField()
+    address=models.TextField()
+    street=models.TextField()
+    city=models.TextField()
+    state=models.TextField()
+    pincode=models.IntegerField()
+    phone=models.IntegerField()
+
+class Contact(models.Model):
+    name = models.TextField()
+    email = models.EmailField()
+    phone = models.CharField(max_length=15)
+    message = models.TextField()    

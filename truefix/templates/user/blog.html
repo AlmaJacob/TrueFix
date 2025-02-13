@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Blog - HouzExpert</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'blog.css' %}?v=1.0">  
+<style>
+    /* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff; /* Light Blue */
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    background-color: white !important;
+    padding: 15px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.navbar .nav-link {
+    color: #007bff;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #0056b3;
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(to right, #007bff, #00a2ff);
+    padding: 60px 0;
+}
+
+.hero-section h1,
+.hero-section p {
+    color: white;
+}
+
+/* Blog Section */
+.blog-section {
+    background-color: white;
+    padding: 60px 0;
+}
+
+.blog-section h2 {
+    text-align: center;
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+.blog-card {
+    background-color: #f0f8ff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.blog-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.blog-card h3 {
+    font-size: 1.4rem;
+    margin-top: 10px;
+    color: #007bff;
+}
+
+.blog-card p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.blog-card .btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.blog-card .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+.footer-section {
+    background-color: #0056b3;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.footer-section p {
+    margin: 0;
+}
+
+</style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="user_home">HouzExpert</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="user_home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">Services</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="blog">Our Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center text-white">
+        <div class="container">
+            <h1 class="display-4">Our Blog</h1>
+            <p class="lead">Latest Updates & Home Service Tips</p>
+        </div>
+    </header>
+
+    <!-- Blog Posts -->
+    <section class="blog-section py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Blog Post 1 -->
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="{% static 'images/blog1.jpg' %}" class="img-fluid rounded" alt="Cleaning Tips">
+                        <h3>Top Cleaning Tips for Your Home</h3>
+                        <p>Learn how to keep your home clean and fresh with these expert tips.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+                <!-- Blog Post 2 -->
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="{% static 'images/blog2.jpg' %}" class="img-fluid rounded" alt="Plumbing Tips">
+                        <h3>Plumbing Mistakes to Avoid</h3>
+                        <p>Find out common plumbing mistakes and how to prevent costly repairs.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+                <!-- Blog Post 3 -->
+                <div class="col-md-4">
+                    <div class="blog-card">
+                        <img src="{% static 'images/blog3.jpg' %}" class="img-fluid rounded" alt="DIY Home Repairs">
+                        <h3>DIY Home Repairs Made Easy</h3>
+                        <p>Simple home repair tricks that can save you time and money.</p>
+                        <a href="#" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-section text-center text-white py-3">
+        <p>&copy; 2024 HouzExpert. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

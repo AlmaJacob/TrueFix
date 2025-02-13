@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffe6f0, #ffc0cb);
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .nav-links .dropdown {
+    position: relative;
+  }
+  
+  .nav-links .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+  }
+  
+  .nav-links .dropdown-menu li {
+    padding: 5px 20px;
+  }
+  
+  .nav-links .dropdown-menu li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+  }
+  
+  .nav-links .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-right: 10px;
+  }
+  
+  /* Wishlist and User Icons */
+  .icons img {
+    width: 24px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .icons img:hover {
+    transform: scale(1.1);
+  }
+  
+      /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header/Navbar Styles */
+  header {
+    background-color: #ffb6c1; /* Light pink background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  /* Navbar container */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+  }
+  
+  /* Logo */
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  
+  /* Navigation links */
+  .nav-links {
+    list-style: none;
+    display: flex;
+  }
+  
+  .nav-links li {
+    margin-left: 20px;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .nav-links a:hover {
+    color: #ff69b4; /* Hot pink hover effect */
+  }
+  
+  /* Icons */
+  .icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .icons img {
+    width: 25px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .icons img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* General Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Navbar Styling */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffdde1; /* Light Pink */
+    padding: 10px 50px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .logo h1 {
+    color: #e91e63; /* Pink */
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  .logo span {
+    color: #b0003a; /* Dark Pink */
+  }
+  
+  .nav-links ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  .nav-links ul li {
+    margin: 0 15px;
+  }
+  
+  .nav-links ul li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+  }
+  
+  .nav-links ul li a:hover {
+    color: #e91e63;
+  }
+  
+  .icons img {
+    width: 24px;
+    margin-left: 15px;
+  }
+  
+        /* Cart container */
+        .cart-item {
+            border: 1px solid #f8b6d6;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #fff0f5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Product image */
+        .cart-item-image img {
+            width: 100%;
+            border-radius: 8px;
+            max-width: 200px;
+            object-fit: cover;
+        }
+
+        /* Product details */
+        .cart-item-details {
+            flex-grow: 1;
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #d63384;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-price {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+        }
+
+        .quantity-controls {
+            color: #6c757d;
+        }
+
+        /* Buttons */
+        .btn-danger {
+            background-color: #ff6699;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #ff3366;
+        }
+         /* Footer */
+         footer {
+            background-color: #d63384;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <div class="logo">
+            Femiglam
+          </div>
+          <ul class="nav-links">
+            <li><a href="user_home">Home</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="blog">Blog</a></li>
+            <li><a href="contact">Contact</a></li>
+            <li><a href="bookings">bookings</a></li>
+          </ul>
+          <div class="icons">
+            <a href="view_cart"><img src="media/icons8-shopping-cart-32.png" alt="Cart"></a>
+         
+             <a class="nav-link " id="login" href="logout" style="color: white;"><i class="fa-solid fa-user" style="color: white;">&nbsp;&nbsp;</i>Logout</a>
+         
+          </div>
+        </nav>
+      </header>
+    <div class="container py-5" style="margin-top: 80px;">
+        <div class="row g-4 align-items-center">
+            {% for i in buy %}
+            <div class="col-lg-6 col-md-12">
+                <div class="cart-item d-flex align-items-center">
+
+                    <div class="cart-item-image">
+                        <img src="{{ i.product.img.url }}" alt="{{ i.product.name }}" class="img-fluid" style="max-height: 200px; object-fit: cover;">
+                    </div>
+                    <div class="cart-item-details ms-3">
+                        <h4 class="product-name">{{ i.service.name }}</h4>
+                        <p class="product-price">Price: ${{ i.service.offer_price }}</p>
+                        <div class="quantity-controls d-flex align-items-center">
+                            <span class="qty">Qty: {{ i.qty }}</span>
+                        </div>
+                        <div class="quantity-controls d-flex align-items-center">
+                            <span class="qty">Date: {{ i.date }}</span>
+                        </div>
+                        <div class="quantity-controls d-flex align-items-center">
+                            <span class="qty">Username: {{ i.user }}</span>
+                        </div>
+                        <a href="../delete_service/{{i.id}}" class="btn btn-sm btn-danger">Cancel Order</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer class="text-light pt-5 mt-3" style="background-color: #f8bbd0; font-size: 15px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h6>INFO</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="contact">Contact Us</a></li>
+                        <li><a href="#">Releases</a></li>
+                        <li><a href="#">Stores</a></li>
+                        <li><a href="#">Brands</a></li>
+                        <li><a href="#">Blogs</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h5>FAQs</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">My Account</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Cosmetics</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Get in Touch</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">SHOP</a></li>
+                        <li><a href="#">Ernakulam</a></li>
+                        <li><a href="#">KOCHI</a></li>
+                        <li>Email: Femiglam@gmail.com</li>
+                        <li>Contact no: +91 4869201392</li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>STAY UP TO DATE</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Sign up for Email</a></li>
+                    </ul>
+                    <h6>EXPLORE</h6>
+                    <div>
+                        <a href="#" style="padding-right: 10px"><i class="bi bi-youtube"></i></a>
+                        <a href="#" style="padding-right: 10px"><i class="bi bi-twitter"></i></a>
+                        <a href="#" style="padding-right: 10px"><i class="bi bi-instagram"></i></a>
+                        <a href="#" style="padding-right: 10px"><i class="bi bi-facebook"></i></a>
+                    </div>     
+                </div>
+            </div>
+        </div>
+        <hr>
+        <br>
+    </footer>
+    
+</body>
+</html>
