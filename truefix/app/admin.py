@@ -1,11 +1,9 @@
 from django.contrib import admin
-from .models import Customer, Employee, Service, ServiceCategory, Appointment, Payment, ServiceReview
+from .models import Category,Booking,Service,Address,Contact
 
-admin.site.register(Customer)
-admin.site.register(Employee)
+admin.site.register(Category)
+admin.site.register(Booking)
 admin.site.register(Service)
-admin.site.register(ServiceCategory)
-admin.site.register(Appointment)
-admin.site.register(Payment)
-admin.site.register(ServiceReview)
+admin.site.register(Address)
+admin.site.register(Contact)
 
