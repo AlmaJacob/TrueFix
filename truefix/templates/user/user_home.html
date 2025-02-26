@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Services</title>
+    <title>User home</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -64,46 +64,75 @@ body {
     border: 1px solid #ccc;
     padding: 10px;
 }
-
-/* Services Section */
-.services-section {
-    background-color: white;
-    padding: 60px 0;
+/* Footer Styles */
+footer {
+    background-color:  #007bff;
+    color: white;
+    padding: 40px 60px;
 }
 
-.services-section h2 {
-    color: #007bff;
-    font-weight: bold;
-}
-
-.services-section .row {
+.footer-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Logo & Social Icons */
+.footer-logo {
+    display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
-.services-section img {
-    width: 80px;
-    height: 80px;
-    display: block;
-    margin: 0 auto 10px;
+.footer-logo img {
+    width: 150px;
 }
 
-.services-section p {
-    font-weight: bold;
-    color: #333;
+.social-icons {
+    margin-top: 10px;
 }
 
-/* Footer */
-.footer-section {
-    background-color: #0056b3;
+.social-icons img {
+    width: 30px;
+    margin: 0 8px;
+    cursor: pointer;
+}
+
+/* Footer Columns */
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px 0;
+}
+
+.footer-column h3 {
+    font-size: 18px;
+    color: #fbbf24; /* Golden Yellow */
+    margin-bottom: 10px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 5px;
+}
+
+.footer-column ul li a {
+    text-decoration: none;
     color: white;
-    padding: 15px 0;
-    text-align: center;
 }
 
-.footer-section p {
-    margin: 0;
+.footer-column ul li a:hover {
+    color: #fbbf24;
+}
+
+/* Location */
+.footer-column p {
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 </style>
@@ -120,8 +149,7 @@ body {
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="user_home">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-                   
+                    <li class="nav-item"><a class="nav-link" href="#serivce">Services</a></li>
                     <li class="nav-item"><a class="nav-link" href="blog">Our Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
                     <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
@@ -138,21 +166,21 @@ body {
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="{% static 'images/h.png' %}" class="d-block w-100" alt="Slide 1">
+            <img src="{% static 'images/ho.png' %}" class="d-block w-100" alt="Slide 1">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Welcome to TrueFix</h5>
                 <p>Your trusted home services provider</p>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="{% static 'images/home2.jpg' %}" class="d-block w-100" alt="Slide 2">
+            <img src="{% static 'images/homm.png' %}" class="d-block w-100" alt="Slide 2">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Reliable & Affordable</h5>
                 <p>Find skilled professionals for all your home needs</p>
             </div>
         </div>
         <div class="carousel-item">
-            <img src="{% static 'images/home3.jpg' %}" class="d-block w-100" alt="Slide 3">
+            <img src="{% static 'images/houze.jpg' %}" class="d-block w-100" alt="Slide 3">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Book Services Easily</h5>
                 <p>Get instant bookings for your home services</p>
@@ -166,23 +194,98 @@ body {
         <span class="carousel-control-next-icon"></span>
     </button>
 </div>
-    <!-- Services Section -->
-    <section class="services-section text-center py-5">
-        <div class="container">
-            <h2 class="mb-4">Home Care Services</h2>
-            <div class="row">
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/painter.png' %}" alt="Painter"> <p>PAINTERS</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/electrician.png' %}" alt="Electrician"> <p>ELECTRICIANS</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/cleaning.png' %}" alt="Cleaning"> <p>HOME CLEANING SERVICES</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/kitchen.png' %}" alt="Kitchen"> <p>KITCHEN CLEANING</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/carpenter.png' %}" alt="Carpenter"> <p>CARPENTERS</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/plumber.png' %}" alt="Plumber"> <p>PLUMBER</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/pest.png' %}" alt="Pest"> <p>PEST CONTROL</p> </div>
-                <div class="col-md-3 mb-3"> <img src="{% static 'icons/laundry.png' %}" alt="Laundry"> <p>LAUNDRY SERVICES</p> </div>
+<section id="serivce" class="services-section text-center py-5 bg-light">
+    <div class="container">
+        <h2 class="mb-4 text-primary fw-bold">Home Care Services</h2>
+        <div class="row justify-content-center">
+            {% for c in cat %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <a href="view_service/{{c.id}}" class="text-decoration-none">
+                    <div class="card shadow-sm border-0 rounded-4">
+                        <img src="{{ c.image.url }}" class="card-img-top rounded-top-4" alt="{{ c.name }}" style="height: 250px;">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-dark fw-semibold">{{ c.name }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+  <!-- Footer Section -->
+  <footer>
+    <div class="footer-container">
+        <!-- Logo & Social Media -->
+        <div class="footer-logo">
+            TrueFix
+            <div class="social-icons">
+                <img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp">
+                <img src="{% static 'images/youtube.png' %}" alt="Instagram">
+                <img src="{% static 'images/instagram.png' %}" alt="Facebook">
+                <img src="{% static 'images/facebook.png' %}" alt="YouTube">
             </div>
         </div>
-    </section>
-    
+
+        <!-- Footer Links -->
+        <div class="footer-column">
+            <h3>LINKS</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+        </div>
+
+        <!-- Services -->
+        <div class="footer-column">
+            <h3>SERVICES</h3>
+            <ul>
+                <li><a href="#"><strong>plumber</strong></a></li>
+                <li><a href="#">Cleaning Services</a></li>
+                <li><a href="#">Pest Control Services</a></li>
+                <li><a href="#">Electrician</a></li>
+                <li><a href="#">carpenter</a></li>
+                <li><a href="#">Water Tank Cleaning</a></li>
+                <li><a href="#">Laundary service</a></li>
+                <li><a href="#">Masonry works</a></li>
+                <li><a href="#">Painters</a></li>
+                <li><a href="#">Kitchen cleaning</a></li>
+            </ul>
+        </div>
+
+        <!-- Branches -->
+        <div class="footer-column">
+            <h3>BRANCHES</h3>
+            <ul>
+                <li>Ernakulam</li>
+                <li>Malappuram</li>
+                <li>Kozhikode</li>
+                <li>Kottayam</li>
+                <li>Coimbatore</li>
+                <li>Kasaragode</li>
+                <li>Kannur</li>
+            </ul>
+        </div>
+
+        <!-- Location -->
+        <div class="footer-column">
+            <h3>LOCATION</h3>
+            <p>
+                TrueFix, Clean And Neat<br>
+                Door no: 36/6512-2, 1st Floor,<br>
+                Madassery Building,<br>
+                Aquatic Road,<br>
+                Near North Bus Stand,<br>
+                Eranakulam - 680 020<br>
+                Mob: +91 98951 09159
+            </p>
+        </div>
+    </div>
+</footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 

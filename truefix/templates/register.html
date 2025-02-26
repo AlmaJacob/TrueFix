@@ -8,70 +8,80 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        /* Background with black theme */
         body {
-            background: linear-gradient(to right, #b3e0ff, #ffffff);
+            background-color: #faf7f7; /* Black background */
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color:  #f0e68c; /* Golden text color */
         }
 
+        /* Registration container styling */
         .registration-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: #161616; /* White background */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
-            border: 2px solid #80c1ff;
+            border: 2px solid #473f11; /* Golden border */
         }
 
         h2 {
-            color: #007bff;
+            color: #f0e68c; /* Golden heading */
             margin-bottom: 20px;
             font-size: 2rem;
         }
 
+        /* Form label styling */
         .form-label {
             font-weight: bold;
-            color: #007bff;
+            color:  #f0e68c; /* Golden text for labels */
         }
 
+        /* Input styling */
         .form-control {
             border-radius: 8px;
-            padding: 10px;
-            border: 1px solid #80c1ff;
-            margin-bottom: 15px;
+            padding: 12px;
+            border: 1px solid  #f0e68c; /* Golden border */
+            margin-bottom: 20px;
             width: 100%;
+            color: #000; /* Black text inside inputs */
+            background-color: #fff; /* White input background */
         }
 
         .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            border-color: #0c0c0c; /* Pink border for focus */
+            box-shadow: 0 0 5px rgba(17, 17, 17, 0.5);
         }
 
+        /* Golden button */
         .btn-primary {
-            background-color: #007bff;
+            background-color: #f0e68c; /* Golden button */
             border: none;
             border-radius: 8px;
-            padding: 10px 0;
+            padding: 12px 0;
             font-size: 1.1rem;
-            color: #fff;
+            color: #000; /* Black text on button */
             width: 100%;
             transition: background-color 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: #0056b3;
+            background-color: #141414; /* Pink hover effect */
+            color: #fff; /* White text on hover */
         }
 
+        /* Link styling */
         .register-link {
             display: block;
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 1rem;
-            color: #007bff;
+            color: #FFD700; /* Golden link */
             text-decoration: none;
         }
 
@@ -79,6 +89,7 @@
             text-decoration: underline;
         }
 
+        /* Alert styling */
         .alert {
             margin-top: 20px;
             border-radius: 5px;
@@ -87,11 +98,15 @@
         .alert-danger {
             background-color: #f8d7da;
             border-color: #f5c6cb;
-            color: #721c24;
+            color: #0c0c0c;
         }
 
         .alert-dismissible .btn-close {
             background-color: #f5c6cb;
+        }
+
+        .alert-danger button {
+            color: #030303;
         }
     </style>
 </head>

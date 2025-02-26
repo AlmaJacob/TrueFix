@@ -17,36 +17,29 @@
             font-family: Arial, sans-serif;
         }
 
-        /* Navbar */
-        .nav-links .dropdown {
-    position: relative;
-  }
-  
-  .nav-links .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    list-style: none;
-    padding: 10px 0;
-  }
-  
-  .nav-links .dropdown-menu li {
-    padding: 5px 20px;
-  }
-  
-  .nav-links .dropdown-menu li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 14px;
-  }
-  
-  .nav-links .dropdown:hover .dropdown-menu {
-    display: block;
-  }
-  
+       /* Navigation Bar */
+.navbar {
+    background-color: white !important;
+    padding: 15px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.navbar .nav-link {
+    color: #007bff;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: #0056b3;
+}
   /* Search Bar */
   .search-bar {
     padding: 5px 10px;
@@ -266,26 +259,24 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar">
-          <div class="logo">
-            Femiglam
-          </div>
-          <ul class="nav-links">
-            <li><a href="user_home">Home</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="blog">Blog</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="bookings">bookings</a></li>
-          </ul>
-          <div class="icons">
-            <a href="view_cart"><img src="media/icons8-shopping-cart-32.png" alt="Cart"></a>
-         
-             <a class="nav-link " id="login" href="logout" style="color: white;"><i class="fa-solid fa-user" style="color: white;">&nbsp;&nbsp;</i>Logout</a>
-         
-          </div>
-        </nav>
-      </header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="user_home">TrueFix</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="user_home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="#serivce">Services</a></li>
+                <li class="nav-item"><a class="nav-link" href="blog">Our Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
     <div class="container py-5" style="margin-top: 80px;">
         <div class="row g-4 align-items-center">
             {% for i in buy %}
