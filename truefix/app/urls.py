@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import buy_now
 urlpatterns = [
     path('', views.service_login),
     path('logout', views.service_logout),
@@ -29,5 +29,8 @@ urlpatterns = [
     # path('service_book/<int:sid>', views.service_book),
     path('cancel', views.cancel_booking),
     # path('order_booking/<int:sid>')
-    
+    path('book_service/<int:id>/',views.buy_now, name='buy_now'),
+    # path('payment/<pid>', payment_page, name='payment_page'),
+    path("order_payment", views.order_payment, name="order_payment")
+
 ]

@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields import CharField
+from django.utils.translation import gettext_lazy as _
+from .constants import PaymentStatus
 
 # Create your models here.
 
@@ -17,7 +20,7 @@ class Service(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     # image = models.ImageField(upload_to='services/')
-    image = models.ImageField(upload_to='services/', null=True, blank=True)
+    image = models.ImageField(upload_to='services/',null=True)
     is_available = models.BooleanField(default=True)
     
     def _str_(self):
@@ -57,3 +60,28 @@ class Contact(models.Model):
     email = models.EmailField()
     phone = models.CharField(max_length=15)
     message = models.TextField()
+
+class Order(models.Model):
+    # name= CharField(_("Customer Name"), max_length=254, blank=False, null=False)
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE)
+    # amount=models.IntegerField(_("Account"),null=False, blank=False)
+    amount = models.ForeignKey(Service, on_delete=models.CASCADE)
+    status=CharField(
+        _("Payment_Status"),
+        default=PaymentStatus.PENDING,
+        max_length=254,
+        blank=False,
+        null=False
+    )
+    provider_order_id =models.CharField(
+        _("order ID"), max_length=40, null=False, blank=False
+    )
+    payment_id =models.CharField(
+        _("order ID"), max_length=36, null=False, blank=False
+    )
+    signature_id =models.CharField(
+        _("order ID"), max_length=128, null=False, blank=False
+    )
+
+    def _str_(self):
+        return f"{self.id}-{self.name}-{self.status}"

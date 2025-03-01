@@ -1,10 +1,16 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Category, Service, Booking
+from .models import Category, Service, Booking,Order
 from django.contrib.auth.models import User
 import os
-
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Service, Address 
+from django.http import JsonResponse
+from django.conf import settings
+import razorpay
+import json 
+from django.views.decorators.csrf import csrf_exempt
 # Authentication
 
 def service_login(req):
@@ -190,3 +196,70 @@ def view_service(req,pid):
     print(cat)
     service=Service.objects.filter(category=cat)
     return render(req,'user/view_service.html',{'service':service})
+
+
+def buy_now(req,id):
+    service = get_object_or_404(Service, pk=id)
+    user=User.objects.get(username=req.session['user'])
+    address = Address.objects.filter(user=req.user).order_by('-id').first()  # Fetch the user's address
+    if req.method == 'POST':
+            booking_date = req.POST['booking_date']
+            booking_time = req.POST['booking_time']
+            special_requests = req.POST.get('special_requests', '')
+            Booking.objects.create(user=user, service=service, booking_date=booking_date, booking_time=booking_time, special_requests=special_requests)
+            req.session['service']=id
+            req.session['booking']=id
+            req.session['amount']=id
+            return redirect('order_payment')  # Redirect to payment page on form submission
+
+    return render(req, 'user/buy_now.html', {'service': service, 'address': address})
+
+# def payment_page(request,pid):
+#     return render(request, 'user/payment.html') 
+def order_payment(req):
+    if 'user' in req.session:
+        user = get_object_or_404(User, username=req.session['user'])
+
+        # Retrieve session data
+        service_id = req.session.get('service')
+        booking_id = req.session.get('booking')
+
+        if not service_id or not booking_id:
+            return redirect('home')  # Redirect if session data is missing
+
+        service = get_object_or_404(Service, pk=service_id)
+        booking = get_object_or_404(Booking, pk=booking_id)
+
+        total_amount = service.price  
+
+        # Initialize Razorpay client
+        razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+        # Create Razorpay order
+        razorpay_order = razorpay_client.order.create({
+            "amount": int(total_amount * 100),  # Convert to paise
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+
+        # Create Order object in Django
+        order = Order.objects.create(
+            booking=booking,
+            amount=service,  # Using Service instead of amount
+            provider_order_id=razorpay_order['id'],
+            payment_id="",
+            signature_id="",
+        )
+
+        req.session['order_id'] = order.pk  
+
+        return render(req, "user/payment.html", {
+            "callback_url": "http://127.0.0.1:8000/callback/",
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "order": order,
+            "user": user,
+        })
+    
+    return redirect('login')  
+
+
