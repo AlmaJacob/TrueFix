@@ -12,21 +12,21 @@ urlpatterns = [
     path('delete_service/<int:sid>', views.delete_service),
     path('edit_service/<int:sid>', views.edit_service),
     # path('view_bookings', views.view_bookings),
-    path('cancel_booking/<int:bid>', views.cancel_booking),
-     path('cancel_booking/<int:bid>', views.cancel_booking),
+    # path('cancel_booking/<int:bid>', views.cancel_booking),
+   
 
     # ------------USER-------------
     path('', views.user_home),
     path('about', views.about),
     path('blog', views.blog),
     path('contact', views.contact),
-    path('user_booking', views.user_bookings),
     path('book_service/<int:sid>', views.book_service),
     path('view_service/<pid>',views.view_service),
     # path('_ser', views.bookings),
     # path('cart_service_book/<int:sid>', views.cart_servi),
     # path('service_book/<int:sid>', views.service_book),
-    path('cancel', views.cancel_booking),
+path('cancel_booking/<bid>', views.cancel_booking),
+   
     # path('order_booking/<int:sid>')
     path('book_service/<int:id>/',views.buy_now, name='buy_now'),
     # path('payment/<pid>', payment_page, name='payment_page'),
@@ -39,7 +39,7 @@ urlpatterns = [
     path('address',views.address),
     path('view_bookings', views.view_bookings),
     path('update_booking', views.update_booking_status),
-    path('user_bookings', views.user_bookings),
+    path('bookings', views.user_bookings),
 
 
 

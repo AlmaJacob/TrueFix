@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core.mail import send_mail
 
+
+
 from .models import Category, Service, Booking,Order
 from django.contrib.auth.models import User
 import os
@@ -142,13 +144,13 @@ def user_bookings(req):
     if 'user' in req.session:
         user = User.objects.get(username=req.session['user'])
         bookings = Booking.objects.filter(user=user)
-        return render(req, 'user/view_bookings.html', {'bookings': bookings})
+        return render(req, 'user/bookings.html', {'bookings': bookings})
     return redirect('service_login')  # Redirect to login if the user isn't authenticated
 
-def cancel_booking(req, booking_id):
+def cancel_booking(req, bid):
     if 'user' in req.session:
         try:
-            booking = Booking.objects.get(pk=booking_id, user__username=req.session['user'])  # Ensure it's the user's booking
+            booking = Booking.objects.get(pk=bid, user__username=req.session['user'])  # Ensure it's the user's booking
             booking.status = 'cancelled'
             booking.save()
         except Booking.DoesNotExist:
@@ -184,9 +186,6 @@ def about(req):
 def blog(req):
     return render(req,'user/blog.html')
 
-def user_bookings(req):
-    buy = Booking.objects.all()[::-1]
-    return render(req, 'user/service.html', {'buy': buy})
 
 # def buy_pro(req, id):
 #     product = Product.objects.get(pk=id)
@@ -281,16 +280,8 @@ def view_service(req,pid):
 
 
 def user_profile(req):
-    # cat=Category.objects.all()
+  return render(req, "user/user_profile.html")
     
-    # user = req.user  
-    # orders = Order.objects.filter(user=user).order_by('-created_at')
-
-    # context = {
-    #     "orders": orders,"cat":cat
-    # }
-
-    return render(req, "user/user_profile.html")
 
 
 def update_username(request):
