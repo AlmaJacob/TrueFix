@@ -142,13 +142,13 @@ footer {
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
-            <a class="navbar-brand" href="user_home">TrueFix</a>
+            <a class="navbar-brand" href="../">TrueFix</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="user_home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="blog">Our Blog</a></li>
                     <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
@@ -160,36 +160,33 @@ footer {
         </div>
     </nav>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="contact-form">
-                    <h2 class="text-center">Contact Us</h2>
-                    <form id="contactForm">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="text" class="form-control" id="phone" name="phone" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-blue w-100">Submit</button>
-                    </form>
-                </div>
+    <div class="container py-5" >
+        <div class="row">
+            <div class="col-md-6 mt-4">
+                <h2>Contact Us</h2>
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Submit</button>
+                </form>
             </div>
         </div>
     </div>
-    
         <!-- <p>&copy; 2025 Home Services | Contact: info@homeservices.com | Phone: +91 4869201392</p> -->
         <footer>
             <div class="footer-container">

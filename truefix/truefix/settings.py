@@ -131,7 +131,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'almajacob7@gmail.com'
-EMAIL_HOST_PASSWORD = 'lpzn ivkd knjc ciij'
+EMAIL_HOST_PASSWORD = 'wvcv hhqv cvpz bjqp'
 
 
 RAZORPAY_KEY_ID = 'rzp_test_qfTyvw2NEpdgaN'

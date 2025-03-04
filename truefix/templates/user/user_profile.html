@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        body {
+            -ms-overflow-style: none;  /* Hide scrollbar in IE and Edge */
+            scrollbar-width: none;  /* Hide scrollbar in Firefox */
+        }
+        .search-form {
+            display: flex;
+            align-items: center;
+            width: 250px; 
+            padding-top: 5%;
+        }
+        footer a{
+          color: white;
+          text-decoration: none;
+        }
+        @media (max-width: 992px) {
+            .search-form {
+                width: 100%;
+                margin-top: 10px;
+            }
+        }
+
+        .search-form {
+        display: flex;
+        align-items: center;
+        width: 250px; /* Adjust width as needed */
+        padding-top: 5%;
+    }
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f8ff; /* Light Blue Background */
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    /* Navigation Bar */
+    .navbar {
+        background-color: white !important;
+        padding: 15px 0;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .navbar .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+    .navbar .nav-link {
+        color: #007bff;
+        font-weight: 500;
+        transition: color 0.3s ease-in-out;
+    }
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+        color: #0056b3;
+    }
+    .carousel-item img {
+        height: 500px; /* Adjust height */
+        object-fit: cover; /* Ensures the image fits well */
+    }
+    .carousel-caption {
+        background: rgba(0, 0, 0, 0.5); /* Adds a slight overlay for readability */
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .hero-section h1 {
+        font-weight: bold;
+    }
+    .hero-section p {
+        font-size: 1.2rem;
+    }
+    .search-section input {
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+    /* Footer Styles */
+    footer {
+        background-color: #007bff;
+        color: white;
+        padding: 40px 60px;
+    }
+    .footer-container {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+    /* Logo & Social Icons */
+    .footer-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-logo img {
+        width: 150px;
+    }
+    .social-icons {
+        margin-top: 10px;
+    }
+    .social-icons img {
+        width: 30px;
+        margin: 0 8px;
+        cursor: pointer;
+    }
+    /* Footer Columns */
+    .footer-column {
+        flex: 1;
+        min-width: 200px;
+        margin: 10px 0;
+    }
+    .footer-column h3 {
+        font-size: 18px;
+        color: #fbbf24; /* Golden Yellow */
+        margin-bottom: 10px;
+    }
+    .footer-column ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-column ul li {
+        margin-bottom: 5px;
+    }
+    .footer-column ul li a {
+        text-decoration: none;
+        color: white;
+    }
+    .footer-column ul li a:hover {
+        color: #fbbf24;
+    }
+    /* Location */
+    .footer-column p {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+     
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="../">TrueFix</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="blog">Our Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="Bookings">Bookings</a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
+                  
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5" style="padding-top: 20px;">
+        <h2 class="mt-5 mb-4">Hey {{ user.first_name }}</h2>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert 
+            {% if message.tags == 'success' %}alert-success 
+            {% elif message.tags == 'error' %}alert-danger 
+            {% endif %}
+            alert-dismissible fade show position-relative" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-2" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="card shadow-sm p-4">
+            <div class="row">
+                <!-- Profile Info -->
+                <div class="col-md-4 text-center">
+                    <img src="{% static 'images/download.jpeg' %}" class="img-fluid rounded-circle mb-3" alt="User Profile" style="max-height: 100px;">
+                    <h4>Name:{{ user.first_name }}</h4>
+                    <h5>Username:{{ user.username }}</h5>
+                    <!-- <p class="text-muted">{{ user.email }}</p> -->
+                    <button id="editProfileBtn" class="btn btn-secondary mt-2">Edit Profile</button>
+                </div>
+    
+                <!-- Edit Profile Form (Initially Hidden) -->
+                <div class="col-md-8">
+                    <div id="editProfileForm" class="d-none">
+                        <h5>Edit Profile</h5>
+                        <form method="POST" action="update_username">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ user.first_name }}" required>
+                                <label for="username" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                            <button id="cancelEditBtn" type="button" class="btn btn-danger">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Form -->
+<div class="container mt-5">
+    <h2 class="text-center">Add New Address</h2>
+    <div class="form-container">
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">House Name:</label>
+                <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone Number:</label>
+                <input type="number" name="phone" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Landmark:</label>
+                <input type="text" name="address" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Street:</label>
+                <input type="text" name="street" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">City:</label>
+                <input type="text" name="city" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">State:</label>
+                <input type="text" name="state" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Pin Code:</label>
+                <input type="number" name="pin" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- Saved Addresses -->
+<div class="container mt-5">
+    <h2 class="text-center">Saved Addresses</h2>
+    <div class="row justify-content-center">
+        {% for i in data %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Name: {{i.name}}</h4>
+                    <h5 class="card-text">Phone: {{i.phone}}</h5>
+                    <h5 class="card-text">Address: {{i.address}}</h5>
+                    <h5 class="card-text">Street: {{i.street}}</h5>
+                    <h5 class="card-text">Pin: {{i.pincode}}</h5>
+                    <h5 class="card-text">City: {{i.city}}</h5>
+                    <h5 class="card-text">State: {{i.state}}</h5>
+                    <a href="delete_address/{{i.pk}}" class="btn btn-danger w-100">Delete</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No saved addresses yet.</p>
+        {% endfor %}
+    </div>
+</div>
+
+   <!-- Footer Section -->
+   <footer>
+    <div class="footer-container">
+        <!-- Logo & Social Media -->
+        <div class="footer-logo">
+            TrueFix
+            <div class="social-icons">
+                <img src="{% static 'images/whatsapp.png' %}" alt="WhatsApp">
+                <img src="{% static 'images/youtube.png' %}" alt="Instagram">
+                <img src="{% static 'images/instagram.png' %}" alt="Facebook">
+                <img src="{% static 'images/facebook.png' %}" alt="YouTube">
+            </div>
+        </div>
+        <!-- Footer Links -->
+        <div class="footer-column">
+            <h3>LINKS</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Gallery</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+        </div>
+        <!-- Services -->
+        <div class="footer-column">
+            <h3>SERVICES</h3>
+            <ul>
+                <li><a href="#"><strong>plumber</strong></a></li>
+                <li><a href="#">Cleaning Services</a></li>
+                <li><a href="#">Pest Control Services</a></li>
+                <li><a href="#">Electrician</a></li>
+                <li><a href="#">carpenter</a></li>
+                <li><a href="#">Water Tank Cleaning</a></li>
+                <li><a href="#">Laundary service</a></li>
+                <li><a href="#">Masonry works</a></li>
+                <li><a href="#">Painters</a></li>
+                <li><a href="#">Kitchen cleaning</a></li>
+            </ul>
+        </div>
+        <!-- Branches -->
+        <div class="footer-column">
+            <h3>BRANCHES</h3>
+            <ul>
+                <li>Ernakulam</li>
+                <li>Malappuram</li>
+                <li>Kozhikode</li>
+                <li>Kottayam</li>
+                <li>Coimbatore</li>
+                <li>Kasaragode</li>
+                <li>Kannur</li>
+            </ul>
+        </div>
+        <!-- Location -->
+        <div class="footer-column">
+            <h3>LOCATION</h3>
+            <p>
+                TrueFix, Clean And Neat<br>
+                Door no: 36/6512-2, 1st Floor,<br>
+                Madassery Building,<br>
+                Aquatic Road,<br>
+                Near North Bus Stand,<br>
+                Eranakulam - 680 020<br>
+                Mob: +91 98951 09159
+            </p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        document.getElementById("editProfileBtn").addEventListener("click", function() {
+            document.getElementById("editProfileForm").classList.remove("d-none"); // Show form
+            this.classList.add("d-none"); // Hide "Edit Profile" button
+        });
+    
+        document.getElementById("cancelEditBtn").addEventListener("click", function() {
+            document.getElementById("editProfileForm").classList.add("d-none"); // Hide form
+            document.getElementById("editProfileBtn").classList.remove("d-none"); // Show "Edit Profile" button
+        });
+       
+    </script>
+</body>
+</html>

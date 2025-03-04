@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.core.mail import send_mail
+
 from .models import Category, Service, Booking,Order
 from django.contrib.auth.models import User
 import os
@@ -135,41 +137,46 @@ def book_service(req, sid):
         return render(req, 'user/order_bookings.html', {'service': service})
     return redirect(service_login)
 
+
 def user_bookings(req):
     if 'user' in req.session:
         user = User.objects.get(username=req.session['user'])
         bookings = Booking.objects.filter(user=user)
         return render(req, 'user/view_bookings.html', {'bookings': bookings})
-    return redirect(service_login)
+    return redirect('service_login')  # Redirect to login if the user isn't authenticated
 
 def cancel_booking(req, booking_id):
     if 'user' in req.session:
-        booking = Booking.objects.get(pk=booking_id)
-        booking.status = 'cancelled'
-        booking.save()
-        return redirect(user_bookings)
-    return redirect(service_login)
-
+        try:
+            booking = Booking.objects.get(pk=booking_id, user__username=req.session['user'])  # Ensure it's the user's booking
+            booking.status = 'cancelled'
+            booking.save()
+        except Booking.DoesNotExist:
+            # Handle if booking doesn't exist or doesn't belong to the logged-in user
+            return redirect('user_bookings')
+        return redirect('user_bookings')  # After canceling, redirect to the bookings page
+    return redirect('service_login') 
+    
 
 def contact(req):
-    if req.method == 'POST':
-        name = req.POST['name']
-        email = req.POST['email']
-        phone = req.POST['phone']
-        message = req.POST['message']
-        try:
-            data = contact.objects.create(
-                name=name,
-                email=email,
-                phone=phone,
-                message=message
-            )
-            data.save()
-            return render(req, 'user/contact.html')
-        except Exception as e:
-            return render(req,'user/contact.html')
-    
-    return render(req,'user/contact.html')
+    cat=Category.objects.all()
+    if req.method == "POST":
+        name = req.POST["name"]
+        email = req.POST["email"]
+        message = req.POST["message"]
+
+        send_mail(
+            subject=f"New Contact Form Submission from {name}",
+            message=f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}",
+            from_email=email,
+            recipient_list=["almajacob7@gmail.com"], 
+            fail_silently=True,
+        )
+
+        messages.success(req, "Your message has been sent successfully!")
+        return redirect(contact )  
+    return render(req,'user/contact.html',{"cat":cat})
+
 
 def about(req):
     return render(req,'user/about.html')
@@ -189,13 +196,6 @@ def user_bookings(req):
 #     data = Buy.objects.create(user=user, product=product, qty=qty, price=price)
 #     data.save()
 #     return redirect(view_bookings)
-
-
-def view_service(req,pid):
-    cat=Category.objects.get(pk=pid)
-    print(cat)
-    service=Service.objects.filter(category=cat)
-    return render(req,'user/view_service.html',{'service':service})
 
 
 def buy_now(req,id):
@@ -262,4 +262,118 @@ def order_payment(req):
     
     return redirect('login')  
 
+
+def order_success(request):
+    return render(request, "user/order_success.html")
+
+def search_service(request):
+    query = request.GET.get('q', '')  
+    results = Service.objects.filter(name__icontains=query)
+    cat=Category.objects.all()
+    return render(request, 'user/search_results.html', {'query': query, 'results': results,"cat":cat})
+
+def view_service(req,pid):
+    cat=Category.objects.get(pk=pid)
+    print(cat)
+    service=Service.objects.filter(category=cat)
+    return render(req,'user/view_service.html',{'service':service})
+
+
+
+def user_profile(req):
+    # cat=Category.objects.all()
+    
+    # user = req.user  
+    # orders = Order.objects.filter(user=user).order_by('-created_at')
+
+    # context = {
+    #     "orders": orders,"cat":cat
+    # }
+
+    return render(req, "user/user_profile.html")
+
+
+def update_username(request):
+    if request.method == "POST":
+        new_first_name = request.POST.get("name")
+        new_username = request.POST.get("username")
+
+        
+        if User.objects.filter(username=new_username).exclude(id=request.user.id).exists():
+            messages.error(request, "This username is already taken. Please choose another one.")
+            return redirect(user_profile) 
+
+        
+        if new_first_name and new_username:
+            request.user.first_name = new_first_name
+            request.user.username = new_username
+            request.user.save()
+            messages.success(request, "Username updated successfully!")
+        else:
+            messages.error(request, "Username and Name cannot be empty.")
+
+    return redirect(user_profile)
+
+
+@csrf_exempt
+def callback(request):
+    if request.method == "POST":
+        try:
+            # Extract Razorpay payment details from the POST request
+            payment_id = request.POST.get("razorpay_payment_id")
+            order_id = request.POST.get("razorpay_order_id")
+            signature = request.POST.get("razorpay_signature")
+
+            # Retrieve the order from your database
+            order = Order.objects.get(provider_order_id=order_id)
+
+            # Verify the signature using Razorpay's API
+            razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+            response = razorpay_client.utility.verify_payment_signature({
+                'razorpay_order_id': order_id,
+                'razorpay_payment_id': payment_id,
+                'razorpay_signature': signature
+            })
+
+            # If the signature is verified, we update the payment status and redirect to the success page
+            if response:
+                order.payment_id = payment_id
+                order.signature_id = signature
+                order.status = "paid"  # mark the order as paid
+                order.save()
+
+                # Redirect to the order success page
+                return redirect('order_success')
+            else:
+                # If signature verification fails, mark the payment as failed
+                order.status = "failed"
+                order.save()
+                return JsonResponse({"error": "Payment verification failed"}, status=400)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+    else:
+        return JsonResponse({"error": "Invalid request"}, status=400)
+    
+
+def address(req):
+    if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        data=Address.objects.filter(user=user)
+        if req.method=='POST':
+            user=User.objects.get(username=req.session['user'])
+            name=req.POST['name']
+            phn=req.POST['phone']
+            house=req.POST['address']
+            street=req.POST['street']
+            city=req.POST['city']
+            pin=req.POST['pin']
+            state=req.POST['state']
+            data=Address.objects.create(user=user,name=name,phone=phn,address=house,city=city,street=street,pincode=pin,state=state)
+            data.save()
+            return redirect(address)
+        else:
+            return render(req,"user/user_profile.html",{'data':data})
+    else:
+        return redirect(service_login)
 
