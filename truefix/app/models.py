@@ -5,7 +5,6 @@ from django.utils.translation import gettext_lazy as _
 from .constants import PaymentStatus
 
 # Create your models here.
-
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -25,6 +24,15 @@ class Service(models.Model):
     
     def _str_(self):
         return self.name
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name=models.TextField()
+    address=models.TextField()
+    street=models.TextField()
+    city=models.TextField()
+    state=models.TextField()
+    pincode=models.IntegerField()
+    phone=models.IntegerField()
 
 class Booking(models.Model):
     STATUS_CHOICES = [
@@ -41,19 +49,14 @@ class Booking(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     special_requests = models.TextField(blank=True, null=True)
-    
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)  #
+    is_confirmed = models.BooleanField(default=False)
+
+
     def _str_(self):
         return f"{self.user.username} - {self.service.name}"
     
-class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name=models.TextField()
-    address=models.TextField()
-    street=models.TextField()
-    city=models.TextField()
-    state=models.TextField()
-    pincode=models.IntegerField()
-    phone=models.IntegerField()
+
 
 class Contact(models.Model):
     name = models.TextField()
@@ -85,3 +88,7 @@ class Order(models.Model):
 
     def _str_(self):
         return f"{self.id}-{self.name}-{self.status}"
+    
+class profile(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    primary_address=models.ForeignKey(Address, on_delete=models.SET_NULL,null=True,blank=True)

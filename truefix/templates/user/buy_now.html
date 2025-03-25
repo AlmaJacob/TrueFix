@@ -171,10 +171,10 @@ footer {
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="../">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
-                <li class="nav-item"><a class="nav-link" href="blog">Our Blog</a></li>
-                <li class="nav-item"><a class="nav-link" href="contact">Contact</a></li>
-                <li class="nav-item"><a class="nav-link" href="Bookings">Bookings</a></li>
+                <li class="nav-item"><a class="nav-link" href="../about">About Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="../blog">Our Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="../contact">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="../bookings">Bookings</a></li>
                 <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
     
             </ul>
@@ -196,8 +196,9 @@ footer {
         <form method="POST">
             {% csrf_token %}
             
+            
             <!-- Address Selection -->
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="address" class="form-label">Choose Address</label>
                 <select class="form-select" id="address" name="address">
                     <option value="">Select an Address</option>
@@ -205,7 +206,18 @@ footer {
                         <option value="{{ address.id }}">{{ address.details }}</option>
                     {% endfor %}
                 </select>
+            </div> -->
+            
+            <div class="mb-3">
+                <label for="address" class="form-label">Choose Address</label>
+                <select class="form-select" id="address" name="address">
+                    <option value="">Select an Address</option>
+                    {% for address in addresses %}
+                        <option value="{{ address.id }}">{{ address.name }}, {{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.pincode }}</option>
+                    {% endfor %}
+                </select>
             </div>
+            
             <!-- booking date -->
             <div class="mb-3">
                 <label for="booking_date" class="form-label">Choose Booking Date</label>

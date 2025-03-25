@@ -115,7 +115,7 @@
                         <p class="card-text">Price: ${{ service.price }}</p>
                         <p class="card-text">Offer Price: ${{ service.offer_price }}</p>
                         <a href="edit_service/{{ service.pk }}" class="btn btn-edit btn-sm">Edit</a>
-                        <a href="delete_service/{{ service.pk }}" class="btn btn-delete btn-sm">Delete</a>
+                        <a href="delete_service/{{ service.pk }}" class="btn btn-delete btn-sm"  onclick="return confirm('Are you sure?');">Delete</a>
                     </div>
                 </div>
             </div>

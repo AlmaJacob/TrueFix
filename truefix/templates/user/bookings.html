@@ -232,7 +232,7 @@ footer {
                     <td class="status-{{ booking.status }}">{{ booking.get_status_display }}</td>
                     <td>
                         {% if booking.status != 'cancelled' %}
-                            <a href="cancel_booking" class="btn btn-cancel btn-sm">Cancel</a>
+                        <a href="{% url 'cancel_booking' bid=booking.id %}">Cancel</a>
                         {% else %}
                             <span class="text-muted">Cancelled</span>
                         {% endif %}
